@@ -8,12 +8,12 @@ El objetivo de esta fase inicial es establecer el núcleo del juego en un entorn
 
 - Algoritmo de limpieza y validación de texto: Dado que el jugador debe escribir el nombre exacto de la canción, se desarrollará un sistema de normalización de cadenas de texto (Strings). Este algoritmo se encarga de procesar la entrada del usuario (eliminando espacios redundantes, convirtiendo caracteres a minúsculas y suprimiendo tildes o caracteres especiales) para realizar una comparación precisa y flexible contra la base de datos de respuestas correctas.
 
-## Fase 2: Integración de la API de Spotify
-Esta fase transforma el proyecto de un entorno cerrado a una aplicación conectada al mundo real, utilizando la API oficial de Spotify para proveer el contenido multimedia.
+## Fase 2: Integración de la API de Deezer (Extracción de Datos)
+Esta fase transforma el proyecto estático en una aplicación conectada al ecosistema musical global, utilizando la API pública de Deezer para proveer el contenido multimedia sin fricción de autenticación.
 
-- Gestión de credenciales y seguridad: Configuración de la aplicación en el portal Spotify for Developers y establecimiento de variables de entorno para manejar los tokens de acceso de forma segura, evitando su exposición en el repositorio público.
+- Conexión HTTP directa: Se utilizará la librería nativa requests de Python para realizar peticiones GET a los servidores de Deezer, gestionando las respuestas en formato JSON para extraer la información estructural de las pistas.
 
-- Extracción de recursos de audio: Mediante la librería Spotipy, se implementarán scripts para consultar dinámicamente el repertorio del artista seleccionado. El sistema filtrará las respuestas de la API para extraer exclusivamente aquellas pistas que cuenten con un preview_url activo (un fragmento de audio de 30 segundos), descartando automáticamente las canciones que no dispongan de este recurso.
+- Filtrado y extracción de recursos: El sistema procesará el catálogo del artista introducido por el usuario y filtrará los datos para obtener exclusivamente el campo preview. Este enlace proporciona un fragmento de audio en formato MP3 de 30 segundos, descartando automáticamente las canciones que no dispongan de este recurso sonoro habilitado.
 
 ## Fase 3: Diseño de la interfaz web (Frontend estático)
 Una vez asegurada la obtención de datos y la lógica de validación, el desarrollo se traslada a la creación de la capa visual de la aplicación web utilizando HTML5 y CSS3.
