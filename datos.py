@@ -1,3 +1,5 @@
+"""Módulo que únicamente contiene la información sobre las canciones."""
+
 canciones_clyde = [
     "MENSAJITO",
     "KitKat",
