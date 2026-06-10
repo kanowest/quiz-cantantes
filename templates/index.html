@@ -2,27 +2,34 @@
 <html lang="es">
 
 <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="../static/css/style.css">
     <meta charset="UTF-8">
     <title>Quiz cantantes</title>
 </head>
 
 <body>
-    <h1>¡Bienvenid@ al quiz!</h1>
+    <h1>¡Bienvenid@ al juego!</h1>
     <h2> Escucharás un trozo de una canción del cantante que hayas elegido, y tendrás que escribir el título. </h2>
-    <h2> Después de cada canción, podrás elegir si cambiar de cantante o seguir con el mismo. </h2>
-    <label for="cantante">Elige tu cantante:</label>
-    <select id="cantante" name="cantante_elegido">
-        <option value="raul_clyde">Raul Clyde</option>
-    </select>
-    <audio src="audio.mp3" controls> </audio>
-    <form action="nosequeponeraqui" method="POST">
-        <label for="respuesta">¿Qué canción es?:</label>
-        <input type="text" id="respuesta" name="respuesta" placeholder="Respuesta" required>
-
-        <button type="submit">Enviar</button>
-    </form>
-    <p id="mensaje_respuesta"> Pondremos algo significativo aquí </p>
+    <h2> Después de cada canción, podrás elegir si cambiar de artista o seguir con el mismo. </h2>
+    <div class="cuestionario">
+        <label for="cantante"> Elige tu cantante:</label>
+        <select id="cantante" name="cantante_elegido">
+            <option value="raul_clyde">Raul Clyde</option>
+        </select>
+        <br> <br>
+        <audio src="audio.mp3" controls> </audio>
+        <br> <br>
+        <form action="nosequeponeraqui" method="POST">
+            <label for="respuesta">¿Qué canción es?</label>
+            <input type="text" id="respuesta" name="respuesta" placeholder="Título" required>
+            <button type="submit">Responder</button>
+        </form>
+    </div>
+    <!-- <p id="mensaje_respuesta"> Pondremos algo significativo aquí </p> -->
 </body>
 
 </html>
