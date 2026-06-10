@@ -9,7 +9,7 @@ def formateo(cadena: str) -> str:
     cadena = cadena.translate(CAMBIO_ACENTOS)
     cadena = cadena.strip()
     for caracter in cadena:
-        if not caracter.isalnum():
+        if not caracter.isalnum() and caracter != " ":
             cadena = cadena.replace(caracter, "")
     return cadena
 
