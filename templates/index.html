@@ -18,7 +18,9 @@
     <div class="cuestionario">
         <label for="cantante"> Elige tu cantante:</label>
         <select id="cantante" name="cantante_elegido">
-            <option value="raul_clyde">Raul Clyde</option>
+            {% for cantante in cantantes %}
+            <option value="cantante">{{ cantante }}</option>
+            {% endfor %}
         </select>
         <br> <br>
         <audio src="audio.mp3" controls> </audio>
