@@ -16,22 +16,27 @@
     <h2> Escucharás un trozo de una canción del cantante que hayas elegido, y tendrás que escribir el título. </h2>
     <h2> Después de cada canción, podrás elegir si cambiar de artista o seguir con el mismo. </h2>
     <div class="cuestionario">
-        <label for="cantante"> Elige tu cantante:</label>
-        <select id="cantante" name="cantante_elegido">
-            {% for cantante in cantantes %}
-            <option value="cantante">{{ cantante }}</option>
-            {% endfor %}
-        </select>
+        <form action="/cargar" method="POST">
+            <label for="cantante"> Elige tu cantante:</label>
+            <select id="cantante" name="cantante_elegido">
+                {% for cantante in cantantes %}
+                <option value="{{ cantante }}">{{ cantante }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Cargar canción</button>
+        </form>
         <br> <br>
-        <audio src="audio.mp3" controls> </audio>
+        <audio src="{{ preview }}" controls> </audio>
         <br> <br>
-        <form action="nosequeponeraqui" method="POST">
+        <form action="/comprobar" method="POST">
             <label for="respuesta">¿Qué canción es?</label>
             <input type="text" id="respuesta" name="respuesta" placeholder="Título" required>
             <button type="submit">Responder</button>
         </form>
     </div>
-    <!-- <p id="mensaje_respuesta"> Pondremos algo significativo aquí </p> -->
+    {% if mensaje %}
+    <p id="mensaje_respuesta"> {{ mensaje }} </p>
+    {% endif %}
 </body>
 
 </html>
