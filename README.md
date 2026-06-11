@@ -1,30 +1,53 @@
-# 🗺️ Hoja de Ruta del Proyecto (Roadmap)
-El desarrollo de este proyecto se divide en cuatro fases principales, diseñadas para escalar la aplicación desde una lógica de consola básica hasta una plataforma web interactiva y conectada a servicios externos.
+# 🎵 Quiz Musical: Adivina la Canción
 
-## Fase 1: Motor de validación y lógica base (Backend):
-El objetivo de esta fase inicial es establecer el núcleo del juego en un entorno de consola utilizando Python, garantizando que la lógica de comprobación funcione de manera impecable antes de añadir capas de complejidad visual o sonora.
+¡Bienvenido al Quiz Musical! Este es un juego web interactivo construido con Python y Flask donde pondrás a prueba tu conocimiento musical. Selecciona a tu artista favorito, escucha un pequeño fragmento de una canción real y demuestra que eres su mayor fan adivinando el título correcto.
 
-- Estructuras de datos: Implementación de las colecciones (diccionarios o listas) encargadas de almacenar y gestionar el catálogo de canciones y artistas disponibles para el juego.
+---
 
-- Algoritmo de limpieza y validación de texto: Dado que el jugador debe escribir el nombre exacto de la canción, se desarrollará un sistema de normalización de cadenas de texto (Strings). Este algoritmo se encarga de procesar la entrada del usuario (eliminando espacios redundantes, convirtiendo caracteres a minúsculas y suprimiendo tildes o caracteres especiales) para realizar una comparación precisa y flexible contra la base de datos de respuestas correctas.
+## 🚀 Cómo funciona el juego
 
-## Fase 2: Integración de la API de Deezer (Extracción de Datos)
-Esta fase transforma el proyecto estático en una aplicación conectada al ecosistema musical global, utilizando la API pública de Deezer para proveer el contenido multimedia sin fricción de autenticación.
+El proyecto está diseñado mediante una arquitectura Cliente-Servidor clásica, integrando herramientas de backend y frontend:
 
-- Conexión HTTP directa: Se utilizará la librería nativa requests de Python para realizar peticiones GET a los servidores de Deezer, gestionando las respuestas en formato JSON para extraer la información estructural de las pistas.
+* **El Motor Web:** Desarrollado íntegramente en Python utilizando el micro-framework Flask.
+* **El Proveedor de Datos:** Conectado en tiempo real a la API oficial de Deezer para obtener canciones, portadas y fragmentos de audio (previews) de forma completamente legal y gratuita.
+* **El Flujo de Partida:** Al elegir un artista en la página principal, el servidor realiza una búsqueda dinámica, selecciona una canción al azar de entre su repertorio principal y envía el audio al navegador del jugador.
+* **Memoria de Juego:** Se utilizan Sesiones encriptadas de Flask (`session`) para que el servidor recuerde de forma segura y oculta cuál es la canción que está sonando, impidiendo cualquier tipo de trampa por parte del usuario al inspeccionar el código.
 
-- Filtrado y extracción de recursos: El sistema procesará el catálogo del artista introducido por el usuario y filtrará los datos para obtener exclusivamente el campo preview. Este enlace proporciona un fragmento de audio en formato MP3 de 30 segundos, descartando automáticamente las canciones que no dispongan de este recurso sonoro habilitado.
+---
 
-## Fase 3: Diseño de la interfaz web (Frontend estático)
-Una vez asegurada la obtención de datos y la lógica de validación, el desarrollo se traslada a la creación de la capa visual de la aplicación web utilizando HTML5 y CSS3.
+## ⚖️ Reglas de Validación
 
-- Estructura del documento: Diseño del esqueleto visual enfocado en la usabilidad. Se reemplazará el clásico sistema de opciones por un formulario de entrada (<input type="text">) claro y accesible, diseñado para que el usuario introduzca el título de la canción.
+Para garantizar una experiencia de juego justa y evitar frustraciones al teclear, el sistema de validación del código (gestionado en el archivo de funciones) aplica una limpieza exhaustiva a los textos antes de compararlos:
 
-- Diseño adaptable (Responsive Design): Aplicación de estilos para garantizar que el reproductor, el temporizador visual y el campo de entrada de texto mantengan una legibilidad y proporciones óptimas tanto en monitores de escritorio como en dispositivos móviles.
+* **Insensibilidad a las mayúsculas y acentos:** El sistema convierte tanto la respuesta oficial de la base de datos como el intento del jugador a minúsculas. Escribir "Columbia" o "columbia" tiene el mismo resultado, así como "AHORA QUÉ" o "ahora que".
+* **Caracteres no alfanuméricos:** Tampoco nos importan. Para el juego, "Hola!" y "Hola" es lo mismo.
+* **Limpieza de espacios en blanco:** Se eliminan los espacios accidentales que el usuario pueda introducir al principio o al final de su respuesta.
+* **Criterio de exactitud:** Una vez limpios ambos textos, la cadena de caracteres introducida debe coincidir con el título oficial de la canción que provee la API de Deezer.
 
-## Fase 4: Orquestación e interactividad (Flask + JavaScript)
-La fase final consiste en la integración de los sistemas previos, creando un puente bidireccional entre el servidor (Python) y el cliente (Navegador) para ofrecer una experiencia en tiempo real.
+---
 
-- Despliegue del servidor con Flask: Implementación de un servidor backend ligero que se encargue de orquestar la aplicación, sirviendo las vistas HTML y transmitiendo de forma segura las URLs de los audios obtenidos de Spotify hacia la interfaz del usuario.
+## 🛠️ Guía de Instalación Local
 
-- Control de interactividad con JavaScript: Desarrollo del motor que rige la experiencia de juego en el navegador. Se programará el control del reproductor de audio, incluyendo un temporizador dinámico que interrumpa la reproducción exactamente al transcurrir el tiempo dictado por el nivel de dificultad (1, 3 o 5 segundos). Asimismo, JavaScript gestionará el envío asíncrono (sin recargar la página) de la respuesta del usuario hacia el servidor Flask para su posterior validación y suma de puntuación.
+Si eres un desarrollador o simplemente quieres ejecutar este juego en tu propia máquina, sigue estos pasos cuidadosamente. Por motivos de ciberseguridad, el repositorio no incluye la clave de encriptación del servidor, por lo que deberás configurar tu propio entorno.
+
+**1. Clonar el repositorio y preparar la carpeta**
+Descarga los archivos del proyecto en tu ordenador y abre tu terminal o línea de comandos dentro de la carpeta principal del proyecto.
+
+**2. Instalar las dependencias**
+El proyecto requiere instalar algunas librerías externas para funcionar. Ejecuta el siguiente comando en tu terminal para instalarlas todas de golpe:
+`pip install flask requests python-dotenv`
+
+**3. Configurar el Entorno Seguro (Variables de Entorno)**
+Para que el sistema de sesiones funcione, necesitas proporcionar tu propia clave de seguridad local.
+* Localiza el archivo llamado `.env.example` en la carpeta raíz.
+* Haz una copia de ese archivo y renómbrala a `.env`.
+* Abre tu nuevo archivo `.env` en cualquier editor de texto y cambia el valor por defecto por una contraseña inventada por ti (no uses espacios).
+* *Nota:* El archivo `.env` es ignorado por Git de forma predeterminada para proteger tu sistema.
+
+**4. Ejecutar el servidor**
+Con la clave configurada, ya puedes arrancar el motor del juego. Ejecuta este comando:
+`python app.py`
+
+**5. ¡A jugar!**
+Abre tu navegador web favorito (Chrome, Firefox, Safari) y escribe la siguiente dirección local en la barra de búsqueda para acceder a tu propia instancia del juego:
+`http://127.0.0.1:5000`
