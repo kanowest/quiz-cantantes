@@ -7,13 +7,17 @@ def formateo(cadena: str) -> str:
     """Formatea una cadena eliminando acentos, espacios al inicio y al final, y cambiando todo a minúsculas."""
     cadena = cadena.lower()
     cadena = cadena.translate(CAMBIO_ACENTOS)
-    cadena = cadena.strip()
-    for caracter in cadena:
-        if not caracter.isalnum() and caracter != " ":
-            cadena = cadena.replace(caracter, "")
-    return cadena
+    return cadena.strip()
 
 
 def validacion(respuesta: str, intento: str) -> bool:
     """Compara si la respuesta correcta es igual al intento del usuario."""
-    return formateo(respuesta) == formateo(intento)
+    resp_norm = formateo(respuesta)
+    int_norm = formateo(intento)
+
+    resp_ajustada = ""
+    for caracter in resp_norm:
+        if caracter.isalnum() or caracter == " " or caracter in int_norm:
+            resp_ajustada += caracter
+
+    return resp_ajustada == int_norm
