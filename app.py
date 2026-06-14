@@ -23,10 +23,22 @@ def home():
 )  # dejamos claro que esto es solo para mandar información
 def jugar():
     cantante_seleccionado = str(request.form.get("cantante_elegido"))
-    cantante_seleccionado = cantante_seleccionado.replace(" ", "-")
-    r_id = requests.get(f"https://api.deezer.com/artist/{cantante_seleccionado}")
-    diccionario_id = r_id.json()
-    id = diccionario_id["id"]
+    session["seleccionado"] = cantante_seleccionado
+
+    # fix para cantantes que dan fallos con la búsqueda del id
+    if cantante_seleccionado == "Raul Clyde":
+        id = 102152692
+    elif cantante_seleccionado == "ladiferencia2006":
+        id = 302009581
+    elif cantante_seleccionado == "JHAYCO":
+        id = 105047672
+    else:
+        cantante_seleccionado_formateado = cantante_seleccionado.replace(" ", "-")
+        r_id = requests.get(
+            f"https://api.deezer.com/artist/{cantante_seleccionado_formateado}"
+        )
+        diccionario_id = r_id.json()
+        id = diccionario_id["id"]
 
     # hacemos una primera petición para saber cuantas canciones tiene el artista
     temp = requests.get(f"https://api.deezer.com/artist/{id}/top?limit=1")
@@ -41,7 +53,12 @@ def jugar():
     session["cancion_correcta"] = nombre
     session["audio"] = audio
 
-    return render_template("index.html", cantantes=lista_cantantes, preview=audio)
+    return render_template(
+        "index.html",
+        cantantes=lista_cantantes,
+        preview=audio,
+        seleccion=cantante_seleccionado,
+    )
 
 
 @app.route(
@@ -50,6 +67,8 @@ def jugar():
 def validar():
     respuesta_correcta = session["cancion_correcta"]
     audio = session["audio"]
+    cantante_seleccionado = session["seleccionado"]
+
     respuesta_usuario = str(request.form.get("respuesta"))
     if validacion(respuesta_correcta, respuesta_usuario):
         return render_template(
@@ -57,6 +76,7 @@ def validar():
             cantantes=lista_cantantes,
             preview=audio,
             mensaje="¡Acertaste!",
+            seleccion=cantante_seleccionado,
         )
     else:
         return render_template(
@@ -64,6 +84,7 @@ def validar():
             cantantes=lista_cantantes,
             preview=audio,
             mensaje=f"¡Fallaste! La canción era {respuesta_correcta}",
+            seleccion=cantante_seleccionado,
         )
 
 
