@@ -15,6 +15,8 @@ app.secret_key = os.getenv("SECRET_KEY")
 
 @app.route("/")
 def home():
+    session["total"] = 0
+    session["aciertos"] = 0
     return render_template("index.html", cantantes=lista_cantantes)
 
 
@@ -65,18 +67,21 @@ def jugar():
     "/comprobar", methods=["POST"]
 )  # dejamos claro que esto es solo para mandar información
 def validar():
+    session["total"] += 1
     respuesta_correcta = session["cancion_correcta"]
     audio = session["audio"]
     cantante_seleccionado = session["seleccionado"]
 
     respuesta_usuario = str(request.form.get("respuesta"))
     if validacion(respuesta_correcta, respuesta_usuario):
+        session["aciertos"] += 1
         return render_template(
             "index.html",
             cantantes=lista_cantantes,
             preview=audio,
             mensaje="¡Acertaste!",
             seleccion=cantante_seleccionado,
+            porcentaje=round((session["aciertos"] / session["total"]) * 100, 2),
         )
     else:
         return render_template(
@@ -85,6 +90,7 @@ def validar():
             preview=audio,
             mensaje=f"¡Fallaste! La canción era {respuesta_correcta}",
             seleccion=cantante_seleccionado,
+            porcentaje=round((session["aciertos"] / session["total"]) * 100, 2),
         )
 
 
