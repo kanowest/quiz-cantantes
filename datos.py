@@ -8,5 +8,5 @@ lista_cantantes = [
     "La Mafia del Amor",
     "Extremoduro",
     "JHAYCO",
-    "Mora",
+    "Álvaro Díaz",
 ]
