@@ -1,0 +1,11 @@
+[project]
+name = "quiz-cantantes"
+version = "3.1.1"
+description = "Quiz Musical web interactivo desarrollado con Python y Flask. Conectado a la API de Deezer, permite a los usuarios buscar a su artista favorito y adivinar la canción escuchando un fragmento de 30 segundos."
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "Flask>=3.1.3",
+    "python-dotenv>=1.2.2",
+    "requests>=2.34.2",
+]
