@@ -28,25 +28,60 @@ Para garantizar una experiencia de juego justa y evitar frustraciones al teclear
 
 ## 🛠️ Guía de Instalación Local
 
-Si eres un desarrollador o simplemente quieres ejecutar este juego en tu propia máquina, sigue estos pasos cuidadosamente. Por motivos de ciberseguridad, el repositorio no incluye la clave de encriptación del servidor, por lo que deberás configurar tu propio entorno.
+Si quieres ejecutar este juego en tu propia máquina, elige uno de los siguientes dos métodos de instalación. Por motivos de ciberseguridad, este repositorio no incluye la clave de encriptación del servidor, por lo que deberás configurar tu propio entorno en el Paso 3.
 
-**1. Clonar el repositorio y preparar la carpeta**
-Descarga los archivos del proyecto en tu ordenador y abre tu terminal o línea de comandos dentro de la carpeta principal del proyecto.
+### Opción A: Instalación Moderna (Recomendado - Requiere `uv`)
 
-**2. Instalar las dependencias**
-El proyecto requiere instalar algunas librerías externas para funcionar. Ejecuta el siguiente comando en tu terminal para instalarlas todas de golpe:
-`pip install flask requests python-dotenv`
+Este método utiliza el gestor de paquetes de alto rendimiento `uv`. Es el camino más rápido, seguro y compatible, ya que leerá el archivo `.python-version` y el `pyproject.toml` para aislar tu entorno en milisegundos.
 
-**3. Configurar el Entorno Seguro (Variables de Entorno)**
+**1. Clonar el repositorio y preparar la carpeta:**
+Descarga los archivos del proyecto y abre tu terminal dentro de la carpeta principal.
+
+**2. Sincronizar el entorno de forma automática:**
+Ejecuta el siguiente comando en tu terminal:
+`uv sync`
+
+### Opción B: Instalación Tradicional (Sin uv - Requiere Python 3.13+)
+Si prefieres usar el ecosistema nativo de Python, puedes construir el entorno a mano utilizando pip.
+
+**1. Clonar el repositorio y preparar la carpeta:**
+Descarga los archivos del proyecto y abre tu terminal dentro de la carpeta principal.
+
+**2. Crear e instalar el entorno virtual manualmente:**
+Ejecuta secuencialmente estos comandos en tu terminal según tu sistema operativo:
+
+  a. En Windows:
+  
+  `python -m venv .venv`  
+  `.venv\Scripts\activate`  
+  `pip install flask requests python-dotenv`
+  
+  b. En macOS / Linux:
+  
+  `python3 -m venv .venv`  
+  `source .venv/bin/activate`  
+  `pip install flask requests python-dotenv`
+
+### Pasos comunes a ambas opciones
+
+**3. Configurar el Entorno Seguro (Variables de Entorno):**
 Para que el sistema de sesiones funcione, necesitas proporcionar tu propia clave de seguridad local.
 * Localiza el archivo llamado `.env.example` en la carpeta raíz.
 * Haz una copia de ese archivo y renómbrala a `.env`.
 * Abre tu nuevo archivo `.env` en cualquier editor de texto y cambia el valor por defecto por una contraseña inventada por ti (no uses espacios).
 * *Nota:* El archivo `.env` es ignorado por Git de forma predeterminada para proteger tu sistema.
 
-**4. Ejecutar el servidor**
-Con la clave configurada, ya puedes arrancar el motor del juego. Ejecuta este comando:
-`python app.py`
+**4. Ejecutar el servidor:**
+Con el entorno preparado y tu clave configurada, arranca el servidor web desde tu terminal:
+
+  a. Si usaste la Opción A (uv):
+  
+  `uv run app.py`
+  
+  b. Si usaste la Opción B (Tradicional):
+  (Asegúrate de tener el entorno virtual activado)
+  
+  `python app.py`
 
 **5. ¡A jugar!**
 Abre tu navegador web favorito (Chrome, Firefox, Safari) y escribe la siguiente dirección local en la barra de búsqueda para acceder a tu propia instancia del juego:
