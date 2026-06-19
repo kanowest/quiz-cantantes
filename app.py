@@ -6,6 +6,9 @@ from validacion import validacion
 from dotenv import load_dotenv
 import os
 
+SEPARADORES = [" (feat.", " (ft.", " feat.", " ft."]
+
+
 app = Flask(__name__)
 
 load_dotenv()
@@ -51,6 +54,11 @@ def jugar():
     r = requests.get(f"https://api.deezer.com/artist/{id}/top?limit=1&index={index}")
     diccionario = r.json()
     nombre = diccionario["data"][0]["title"]
+    for separador in SEPARADORES:
+        if separador in nombre.lower():
+            indice = nombre.lower().find(separador)
+            nombre = nombre[:indice]
+            break
     audio = diccionario["data"][0]["preview"]
     session["cancion_correcta"] = nombre
     session["audio"] = audio
