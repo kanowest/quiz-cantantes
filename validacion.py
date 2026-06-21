@@ -1,6 +1,9 @@
 """Módulo que contiene dos funciones para formatear y comparar las respuestas con los intentos de los usuarios."""
 
+from difflib import SequenceMatcher
+
 CAMBIO_ACENTOS = str.maketrans("áéíóúÁÉÍÓÚ", "aeiouAEIOU")
+UMBRAL_COINCIDENCIA = 0.85
 
 
 def formateo(cadena: str) -> str:
@@ -20,4 +23,4 @@ def validacion(respuesta: str, intento: str) -> bool:
         if caracter.isalnum() or caracter == " " or caracter in int_norm:
             resp_ajustada += caracter
 
-    return resp_ajustada == int_norm
+    return SequenceMatcher(None, resp_ajustada, int_norm).ratio() >= UMBRAL_COINCIDENCIA
