@@ -43,14 +43,6 @@ def jugar():
             f"https://api.deezer.com/artist/{cantante_seleccionado_formateado}"
         )
         diccionario_id = r_id.json()
-        try:
-            id = int(diccionario_id["id"])
-        except (KeyError, TypeError, ValueError):
-            return render_template(
-                "index.html",
-                cantantes=lista_cantantes,
-                mensaje="No se pudo obtener un artista válido.",
-            )
 
     safe_artist_id = str(id)
     if not safe_artist_id.isdigit():
