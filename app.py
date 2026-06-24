@@ -28,6 +28,14 @@ def home():
 )  # dejamos claro que esto es solo para mandar información
 def jugar():
     cantante_seleccionado = str(request.form.get("cantante_elegido"))
+
+    if cantante_seleccionado not in lista_cantantes:
+        return render_template(
+            "index.html",
+            cantantes=lista_cantantes,
+            mensaje="Selección de cantante no válida.",
+        )
+
     session["seleccionado"] = cantante_seleccionado
 
     # fix para cantantes que dan fallos con la búsqueda del id
