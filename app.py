@@ -28,6 +28,8 @@ def home():
 )  # dejamos claro que esto es solo para mandar información
 def jugar():
     cantante_seleccionado = str(request.form.get("cantante_elegido"))
+    if cantante_seleccionado not in lista_cantantes:
+        return render_template("index.html", cantantes=lista_cantantes)
     session["seleccionado"] = cantante_seleccionado
 
     # fix para cantantes que dan fallos con la búsqueda del id
@@ -45,13 +47,19 @@ def jugar():
         diccionario_id = r_id.json()
         id = diccionario_id["id"]
 
+    id = str(id)
+    if not id.isdigit():
+        return render_template("index.html", cantantes=lista_cantantes)
+
     # hacemos una primera petición para saber cuantas canciones tiene el artista
     temp = requests.get(f"https://api.deezer.com/artist/{id}/top?limit=1")
     diccionario_temp = temp.json()
     total = diccionario_temp["total"]
 
     index = random.randint(0, total - 1)
-    r = requests.get(f"https://api.deezer.com/artist/{id}/top?limit=1&index={index}")
+    r = requests.get(
+        f"https://api.deezer.com/artist/{id}/top", params={"limit": 1, "index": index}
+    )
     diccionario = r.json()
     nombre = diccionario["data"][0]["title"]
     for separador in SEPARADORES:
