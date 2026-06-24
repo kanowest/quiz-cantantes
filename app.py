@@ -57,9 +57,7 @@ def jugar():
     total = diccionario_temp["total"]
 
     index = random.randint(0, total - 1)
-    r = requests.get(
-        f"https://api.deezer.com/artist/{id}/top", params={"limit": 1, "index": index}
-    )
+    r = requests.get(f"https://api.deezer.com/artist/{id}/top?limit=1&index={index}")
     diccionario = r.json()
     nombre = diccionario["data"][0]["title"]
     for separador in SEPARADORES:
