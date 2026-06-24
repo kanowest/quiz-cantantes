@@ -60,6 +60,10 @@ def jugar():
             mensaje="ID de artista inválido.",
         )
 
+    id = str(id)
+    if not id.isdigit():
+        return render_template("index.html", cantantes=lista_cantantes)
+
     # hacemos una primera petición para saber cuantas canciones tiene el artista
     temp = requests.get(f"https://api.deezer.com/artist/{safe_artist_id}/top?limit=1")
     diccionario_temp = temp.json()
