@@ -43,15 +43,32 @@ def jugar():
             f"https://api.deezer.com/artist/{cantante_seleccionado_formateado}"
         )
         diccionario_id = r_id.json()
-        id = diccionario_id["id"]
+        try:
+            id = int(diccionario_id["id"])
+        except (KeyError, TypeError, ValueError):
+            return render_template(
+                "index.html",
+                cantantes=lista_cantantes,
+                mensaje="No se pudo obtener un artista válido.",
+            )
+
+    safe_artist_id = str(id)
+    if not safe_artist_id.isdigit():
+        return render_template(
+            "index.html",
+            cantantes=lista_cantantes,
+            mensaje="ID de artista inválido.",
+        )
 
     # hacemos una primera petición para saber cuantas canciones tiene el artista
-    temp = requests.get(f"https://api.deezer.com/artist/{id}/top?limit=1")
+    temp = requests.get(f"https://api.deezer.com/artist/{safe_artist_id}/top?limit=1")
     diccionario_temp = temp.json()
     total = diccionario_temp["total"]
 
     index = random.randint(0, total - 1)
-    r = requests.get(f"https://api.deezer.com/artist/{id}/top?limit=1&index={index}")
+    r = requests.get(
+        f"https://api.deezer.com/artist/{safe_artist_id}/top?limit=1&index={index}"
+    )
     diccionario = r.json()
     nombre = diccionario["data"][0]["title"]
     for separador in SEPARADORES:
