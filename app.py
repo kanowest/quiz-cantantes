@@ -48,9 +48,11 @@ def jugar():
     else:
         cantante_seleccionado_formateado = cantante_seleccionado.replace(" ", "-")
         r_id = requests.get(
-            f"https://api.deezer.com/artist/{cantante_seleccionado_formateado}"
+            f"https://api.deezer.com/artist/{cantante_seleccionado_formateado}",
+            timeout=10,
         )
         diccionario_id = r_id.json()
+        id = diccionario_id["id"]
 
     safe_artist_id = str(id)
     if not safe_artist_id.isdigit():
@@ -60,18 +62,22 @@ def jugar():
             mensaje="ID de artista inválido.",
         )
 
-    id = str(id)
-    if not id.isdigit():
-        return render_template("index.html", cantantes=lista_cantantes)
-
     # hacemos una primera petición para saber cuantas canciones tiene el artista
-    temp = requests.get(f"https://api.deezer.com/artist/{safe_artist_id}/top?limit=1")
+    temp = requests.get(f"https://api.deezer.com/artist/{safe_artist_id}/top?limit=1", timeout=10)
     diccionario_temp = temp.json()
     total = diccionario_temp["total"]
 
+    if total == 0:
+        return render_template(
+            "index.html",
+            cantantes=lista_cantantes,
+            mensaje="Este artista no tiene canciones disponibles.",
+        )
+
     index = random.randint(0, total - 1)
     r = requests.get(
-        f"https://api.deezer.com/artist/{safe_artist_id}/top?limit=1&index={index}"
+        f"https://api.deezer.com/artist/{safe_artist_id}/top?limit=1&index={index}",
+        timeout=10,
     )
     diccionario = r.json()
     nombre = diccionario["data"][0]["title"]
@@ -96,6 +102,8 @@ def jugar():
     "/comprobar", methods=["POST"]
 )  # dejamos claro que esto es solo para mandar información
 def validar():
+    if "cancion_correcta" not in session:
+        return render_template("index.html", cantantes=lista_cantantes, mensaje="Primero selecciona un cantante.")
     session["total"] += 1
     respuesta_correcta = session["cancion_correcta"]
     audio = session["audio"]

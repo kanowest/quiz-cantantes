@@ -2,7 +2,7 @@
 
 from difflib import SequenceMatcher
 
-CAMBIO_ACENTOS = str.maketrans("áéíóúÁÉÍÓÚ", "aeiouAEIOU")
+CAMBIO_ACENTOS = str.maketrans("áéíóúüñÁÉÍÓÚÜÑ", "aeiouunAEIOUUN")
 UMBRAL_COINCIDENCIA = 0.85
 
 
