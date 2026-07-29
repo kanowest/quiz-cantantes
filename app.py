@@ -47,8 +47,19 @@ def jugar():
     elif cantante_seleccionado == "JHAYCO":
         id = 105047672
     else:
-        cantante_seleccionado_formateado = cantante_seleccionado.replace(" ", "-")
-        cantante_seleccionado_safe = quote(cantante_seleccionado_formateado, safe="")
+        # usar términos de búsqueda controlados por el servidor (no input directo del usuario)
+        artist_search_terms = {
+            cantante: cantante.replace(" ", "-")
+            for cantante in lista_cantantes
+        }
+        search_term = artist_search_terms.get(cantante_seleccionado)
+        if search_term is None:
+            return render_template(
+                "index.html",
+                cantantes=lista_cantantes,
+                mensaje="Selección de cantante no válida.",
+            )
+        cantante_seleccionado_safe = quote(search_term, safe="")
         r_id = requests.get(f"https://api.deezer.com/search/artist/{cantante_seleccionado_safe}",timeout=10)
         diccionario_id = r_id.json()
         resultados = diccionario_id.get("data", [])
