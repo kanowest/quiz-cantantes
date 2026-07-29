@@ -5,6 +5,7 @@ import random
 from validacion import validacion
 from dotenv import load_dotenv
 import os
+from urllib.parse import quote
 
 SEPARADORES = [" (feat.", " (ft.", " feat.", " ft."]
 
@@ -47,7 +48,8 @@ def jugar():
         id = 105047672
     else:
         cantante_seleccionado_formateado = cantante_seleccionado.replace(" ", "-")
-        r_id = requests.get(f"https://api.deezer.com/search/artist/{cantante_seleccionado_formateado}",timeout=10)
+        cantante_seleccionado_safe = quote(cantante_seleccionado_formateado, safe="")
+        r_id = requests.get(f"https://api.deezer.com/search/artist/{cantante_seleccionado_safe}",timeout=10)
         diccionario_id = r_id.json()
         resultados = diccionario_id.get("data", [])
         if not resultados:
