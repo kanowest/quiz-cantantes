@@ -47,29 +47,33 @@ def jugar():
     elif cantante_seleccionado == "JHAYCO":
         id = 105047672
     else:
-        # usar términos de búsqueda controlados por el servidor (no input directo del usuario)
-        artist_search_terms = {
-            cantante: cantante.replace(" ", "-")
-            for cantante in lista_cantantes
-        }
+        artist_search_terms = {cantante: cantante for cantante in lista_cantantes}
         search_term = artist_search_terms.get(cantante_seleccionado)
+
         if search_term is None:
             return render_template(
                 "index.html",
                 cantantes=lista_cantantes,
                 mensaje="Selección de cantante no válida.",
             )
-        cantante_seleccionado_safe = quote(search_term, safe="")
-        r_id = requests.get(f"https://api.deezer.com/search/artist/{cantante_seleccionado_safe}",timeout=10)
+
+        cantante_seleccionado_safe = quote(search_term).replace("%20", "-")
+
+        r_id = requests.get(
+            f"https://api.deezer.com/artist/{cantante_seleccionado_safe}",
+            timeout=10,
+        )
+
         diccionario_id = r_id.json()
-        resultados = diccionario_id.get("data", [])
-        if not resultados:
+
+        if "error" in diccionario_id or "id" not in diccionario_id:
             return render_template(
                 "index.html",
                 cantantes=lista_cantantes,
                 mensaje="No se pudo encontrar el artista seleccionado.",
             )
-        id = resultados[0]["id"]
+
+        id = diccionario_id["id"]
 
     safe_artist_id = str(id)
     if not safe_artist_id.isdigit():
@@ -80,7 +84,9 @@ def jugar():
         )
 
     # hacemos una primera petición para saber cuantas canciones tiene el artista
-    temp = requests.get(f"https://api.deezer.com/artist/{safe_artist_id}/top?limit=1", timeout=10)
+    temp = requests.get(
+        f"https://api.deezer.com/artist/{safe_artist_id}/top?limit=1", timeout=10
+    )
     diccionario_temp = temp.json()
     total = diccionario_temp["total"]
 
@@ -120,7 +126,11 @@ def jugar():
 )  # dejamos claro que esto es solo para mandar información
 def validar():
     if "cancion_correcta" not in session:
-        return render_template("index.html", cantantes=lista_cantantes, mensaje="Primero selecciona un cantante.")
+        return render_template(
+            "index.html",
+            cantantes=lista_cantantes,
+            mensaje="Primero selecciona un cantante.",
+        )
     session["total"] += 1
     respuesta_correcta = session["cancion_correcta"]
     audio = session["audio"]
