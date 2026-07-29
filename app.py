@@ -46,13 +46,20 @@ def jugar():
     elif cantante_seleccionado == "JHAYCO":
         id = 105047672
     else:
-        cantante_seleccionado_formateado = cantante_seleccionado.replace(" ", "-")
         r_id = requests.get(
-            f"https://api.deezer.com/artist/{cantante_seleccionado_formateado}",
+            "https://api.deezer.com/search/artist",
+            params={"q": cantante_seleccionado},
             timeout=10,
         )
         diccionario_id = r_id.json()
-        id = diccionario_id["id"]
+        resultados = diccionario_id.get("data", [])
+        if not resultados:
+            return render_template(
+                "index.html",
+                cantantes=lista_cantantes,
+                mensaje="No se pudo encontrar el artista seleccionado.",
+            )
+        id = resultados[0]["id"]
 
     safe_artist_id = str(id)
     if not safe_artist_id.isdigit():
