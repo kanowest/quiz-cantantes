@@ -8,6 +8,9 @@
         rel="stylesheet">
     <link rel="stylesheet" href="../static/css/style.css">
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎵</text></svg>">
     <title>Quiz cantantes</title>
 </head>
 
@@ -15,7 +18,7 @@
     <h1>¡Bienvenid@ al juego!</h1>
     <h2> Escucharás un trozo de una canción del cantante que hayas elegido, y tendrás que escribir el título. </h2>
     <h2> Después de cada canción, podrás elegir si cambiar de artista o seguir con el mismo. </h2>
-    <div class="cuestionario">
+    <div class="tarjeta">
         <form action="/cargar" method="POST">
             <label for="cantante"> Elige tu cantante:</label>
             <select id="cantante" name="cantante_elegido">
@@ -30,21 +33,22 @@
             </select>
             <button type="submit">Cargar canción</button>
         </form>
-        <br> <br>
+
         <audio src="{{ preview }}" controls> </audio>
-        <br> <br>
+
         <form action="/comprobar" method="POST">
             <label for="respuesta">¿Qué canción es?</label>
             <input type="text" id="respuesta" name="respuesta" placeholder="Título" required>
             <button type="submit">Responder</button>
         </form>
+
+        {% if mensaje %}
+        <p id="mensaje_respuesta" class="{% if 'Acertaste' in mensaje %}acierto{% else %}fallo{% endif %}"> {{ mensaje }} </p>
+        {% endif %}
+        {% if porcentaje %}
+        <p id="porcentaje_aciertos"> Porcentaje de aciertos: {{ porcentaje }}%</p>
+        {% endif %}
     </div>
-    {% if mensaje %}
-    <p id="mensaje_respuesta"> {{ mensaje }} </p>
-    {% endif %}
-    {% if porcentaje %}
-    <p id="porcentaje_aciertos"> Porcentaje de aciertos: {{ porcentaje }}%</p>
-    {% endif %}
 </body>
 
 </html>

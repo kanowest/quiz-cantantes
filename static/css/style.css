@@ -3,15 +3,29 @@ html {
     background: linear-gradient(90deg, #e4c0a1, #e9c0b2, #b97ec3);
 }
 
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 20px;
+    box-sizing: border-box;
+}
+
 h1 {
     font-size: 50px;
     text-align: center;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: 'Montserrat', sans-serif;
+    margin: 5px 0 15px;
 }
 
 h2 {
     font-family: 'Montserrat', sans-serif;
     text-align: center;
+    font-weight: 400;
+    max-width: 700px;
+    margin: 6px auto;
 }
 
 p {
@@ -23,43 +37,103 @@ p {
 
 label {
     font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
 }
 
-.cuestionario {
-    border-top: 5px dashed black;
+.tarjeta {
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+    padding: 30px;
+    width: 100%;
+    max-width: 700px;
     text-align: center;
-    padding-top: 25px;
-}
-
-input {
-    font-family: 'Montserrat', sans-serif;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 10px;
+    margin-top: 25px;
     box-sizing: border-box;
 }
 
+.tarjeta form,
+.tarjeta audio {
+    margin-bottom: 22px;
+}
+
+.tarjeta label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+input,
 select {
     font-family: 'Montserrat', sans-serif;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 8px;
+    border-radius: 6px;
+    padding: 10px;
+    box-sizing: border-box;
+    font-size: 16px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: #b97ec3;
+    box-shadow: 0 0 0 3px rgba(185, 126, 195, 0.25);
 }
 
 button {
     font-family: 'Montserrat', sans-serif;
-    background-color: white;
-    color: black;
-    padding: 5px 10px;
+    background-color: #b97ec3;
+    color: white;
+    padding: 10px 20px;
     font-size: 16px;
-    border-radius: 5px;
+    border: none;
+    border-radius: 8px;
     cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    margin-left: 8px;
 }
 
 button:hover {
-    background-color: beige;
+    background-color: #a563b0;
 }
 
 button:active {
-    transform: scale(0.95)
+    transform: scale(0.95);
+}
+
+#mensaje_respuesta.acierto {
+    color: #2e7d32;
+}
+
+#mensaje_respuesta.fallo {
+    color: #c62828;
+}
+
+#porcentaje_aciertos {
+    color: #5a3a7a;
+}
+
+@media (max-width: 600px) {
+    h1 {
+        font-size: 34px;
+    }
+
+    body {
+        padding: 20px 12px;
+    }
+
+    .tarjeta {
+        padding: 20px;
+    }
+
+    input,
+    select {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    button {
+        width: 100%;
+        margin-left: 0;
+    }
 }
