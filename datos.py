@@ -12,4 +12,9 @@ lista_cantantes = [
     "Aitana",
     "Alejo",
     "Lucho RK",
+    "La Pantera",
+    "Juseph",
+    "SAIKO",
+    "DELLAFUENTE",
+    "Soge Culebra",
 ]

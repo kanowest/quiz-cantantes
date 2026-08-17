@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 import os
 from urllib.parse import quote
 
-SEPARADORES = [" (feat.", " (ft.", " feat.", " ft."]
+SEPARADORES = [" (feat.", " (ft.", " feat.", " ft.", "(hosted by"]
 
 
 app = Flask(__name__)
@@ -48,6 +48,10 @@ def jugar():
         id = 105047672
     elif cantante_seleccionado == "Lucho RK":
         id = 151322852
+    elif cantante_seleccionado == "La Pantera":
+        id = 7524936
+    elif cantante_seleccionado == "Soge Culebra":
+        id = 9305278
     else:
         artist_search_terms = {cantante: cantante for cantante in lista_cantantes}
         search_term = artist_search_terms.get(cantante_seleccionado)
