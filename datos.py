@@ -9,4 +9,7 @@ lista_cantantes = [
     "Extremoduro",
     "JHAYCO",
     "Álvaro Díaz",
+    "Aitana",
+    "Alejo",
+    "Lucho RK",
 ]

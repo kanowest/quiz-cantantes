@@ -46,6 +46,8 @@ def jugar():
         id = 302009581
     elif cantante_seleccionado == "JHAYCO":
         id = 105047672
+    elif cantante_seleccionado == "Lucho RK":
+        id = 151322852
     else:
         artist_search_terms = {cantante: cantante for cantante in lista_cantantes}
         search_term = artist_search_terms.get(cantante_seleccionado)
